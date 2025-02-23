@@ -1,15 +1,12 @@
 #pragma kernel main
 
-//#include "common.cginc"
+#include "common.cginc"
 
 #define EDGE_THRESHOLD_MIN 0.0312
 #define EDGE_THRESHOLD_MAX 0.125
 #define ITERATIONS 12
 #define QUALITY(X) 1
 #define SUBPIXEL_QUALITY 0.75
-
-int width;
-int height;
 
 Texture2D<float4> input;
 RWTexture2D<float4> output;

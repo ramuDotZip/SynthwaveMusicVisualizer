@@ -2,11 +2,6 @@
 
 #include "common.cginc"
 
-int width;
-int height;
-
-float iTime;
-
 RWStructuredBuffer<float> spectrumData;
 Texture2D<float4> firstPassInput;
 Texture2D<float4> gaussianInput;

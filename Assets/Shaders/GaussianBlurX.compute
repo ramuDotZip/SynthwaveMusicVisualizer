@@ -2,11 +2,6 @@
 
 #include "common.cginc"
 
-int width;
-int height;
-
-float iTime;
-
 Texture2D<float4> input;
 RWTexture2D<float4> output;
 

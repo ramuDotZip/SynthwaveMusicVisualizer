@@ -28,6 +28,11 @@
 #define TEXEL_FETCH(X, Y) ((X).SampleLevel(pointClampSampler, ((Y) + 0.5) / float2(width, height), 0))
 SamplerState pointClampSampler;
 
+int width;
+int height;
+
+float iTime;
+
 
 uint hash(uint state) {
     state ^= 2747636419u;
