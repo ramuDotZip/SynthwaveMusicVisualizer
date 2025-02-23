@@ -121,12 +121,13 @@ public class ShaderController : MonoBehaviour {
         gaussianX2Shader.Dispatch(0, threadGroupsX, threadGroupsY, 1);
         gaussianY2Shader.Dispatch(0, threadGroupsX, threadGroupsY, 1);
 
-        Graphics.SetRenderTarget(texCI, 0);
+        /*Graphics.SetRenderTarget(texCI, 0);
         GL.PushMatrix();
         GL.LoadPixelMatrix(0, 1920, 1080, 0);
         GL.Clear(true, true, new Color(0,0,0,0));
         Graphics.DrawTexture(new Rect(0, 0, width, height), source);
-        GL.PopMatrix();
+        GL.PopMatrix();*/
+        Graphics.Blit(source, texCI);
 
         finalMixShader.Dispatch(0, threadGroupsX, threadGroupsY, 1);
 

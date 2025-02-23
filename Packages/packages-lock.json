@@ -1,5 +1,11 @@
 {
   "dependencies": {
+    "com.alelievr.node-graph-processor": {
+      "version": "file:C:/Users/reinaquinn/Downloads/NodeGraphProcessor-master/NodeGraphProcessor-master/Assets/com.alelievr.NodeGraphProcessor",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
     "com.unity.2d.animation": {
       "version": "7.0.7",
       "depth": 1,

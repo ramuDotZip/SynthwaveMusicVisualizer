@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.alelievr.node-graph-processor": "file:C:/Users/reinaquinn/Downloads/NodeGraphProcessor-master/NodeGraphProcessor-master/Assets/com.alelievr.NodeGraphProcessor",
     "com.unity.collab-proxy": "1.17.2",
     "com.unity.feature.2d": "1.0.0",
     "com.unity.ide.rider": "3.0.15",

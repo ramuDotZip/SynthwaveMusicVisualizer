@@ -5,12 +5,12 @@ using UnityEngine;
 public class MainController : MonoBehaviour
 {
     AudioController audioController;
-    ShaderController shaderController;
+    CSGMain shaderController;
     // Start is called before the first frame update
     void Start()
     {
         audioController = GetComponent<AudioController>();
-        shaderController = GetComponent<ShaderController>();
+        shaderController = GetComponent<CSGMain>();
     }
 
     // Update is called once per frame

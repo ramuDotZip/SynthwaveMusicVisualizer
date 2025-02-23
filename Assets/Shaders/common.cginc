@@ -33,6 +33,8 @@ int height;
 
 float iTime;
 
+RWTexture2D<float4> output;
+
 
 uint hash(uint state) {
     state ^= 2747636419u;

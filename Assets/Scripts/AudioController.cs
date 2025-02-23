@@ -7,17 +7,11 @@ public class AudioController : MonoBehaviour
     [SerializeField] private AudioSource mainAudioSource;
     [SerializeField] private AudioSource secondaryAudioSource;
     [SerializeField] float mix = 0.5f;
+    [SerializeField] CSGFloatBuffer spectrumDataBuffer;
 
     public readonly float[] samplesMain = new float[2048];
     public readonly float[] samplesSecondary = new float[2048];
     public readonly float[] bandVolumes = new float[9];
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     public void StartAnimation() {
         if (mainAudioSource != null) mainAudioSource.Play();
@@ -37,7 +31,6 @@ public class AudioController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (mainAudioSource == null || secondaryAudioSource == null) return;
@@ -66,5 +59,7 @@ public class AudioController : MonoBehaviour
 
             bandVolumes[i] = oldVol + Mathf.Clamp(newVol - oldVol, -(i == 8 ? 0.5f : 1.5f) * Time.deltaTime, (i == 8 ? 8 : 32) * Time.deltaTime);
         }
+
+        spectrumDataBuffer.Buffer.SetData(bandVolumes);
     }
 }

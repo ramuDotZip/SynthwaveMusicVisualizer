@@ -8,7 +8,6 @@ Texture2D<float4> gaussianInput;
 Texture2D<float4> bandsInput;
 Texture2D<float4> bandsBlurredInput;
 Texture2D<float4> centerImageInput;
-RWTexture2D<float4> output;
 
 [numthreads(32,32,1)]
 void main (uint3 id : SV_DispatchThreadID)

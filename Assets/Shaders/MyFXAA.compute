@@ -9,7 +9,6 @@
 #define SUBPIXEL_QUALITY 0.75
 
 Texture2D<float4> input;
-RWTexture2D<float4> output;
 
 SamplerState linearClampSampler;
 
