@@ -1,0 +1,26 @@
+#pragma kernel main
+
+#include "common.cginc"
+
+int width;
+int height;
+
+float iTime;
+
+Texture2D<float4> input;
+RWTexture2D<float4> output;
+
+[numthreads(32,32,1)]
+void main (uint3 id : SV_DispatchThreadID)
+{
+    float4 fragColor = float4(0,0,0,0);
+    float totalWeight = 0;
+    for (int y = -16; y <= 16; y++) {
+        float weight = exp(-0.04 * float(y * y));
+        float4 color = input[id.xy + int2(0,y)];
+        fragColor += weight * color;
+        totalWeight += weight;
+    }
+    fragColor /= totalWeight;
+    output[id.xy] = fragColor;
+}

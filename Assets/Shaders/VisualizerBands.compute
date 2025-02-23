@@ -1,0 +1,46 @@
+#pragma kernel main
+
+#include "common.cginc"
+
+int width;
+int height;
+
+RWStructuredBuffer<float> spectrumData;
+RWTexture2D<float4> output;
+
+[numthreads(32,32,1)]
+void main (uint3 id : SV_DispatchThreadID)
+{
+    if (!DRAW_FREQVIS) return;
+
+	float4 fragColor = float4(0,0,0,0);
+
+    float2 res = float2(width, height);
+    float2 pos = id.xy + 0.5;
+    float2 hres = res * 0.5;
+    float2 cpos = pos - hres;
+
+    float trix = (pos.x - res.x*0.49) / (res.y*0.28);
+    float triy = (pos.y - res.y*0.39) / (res.y*0.28);
+    
+    float trisdf = abs(trix) + abs(1.6 * (triy - 0.2 * trix) - abs(trix)) - 1.0;
+    float abovesdf = 1.6 * (triy - 0.2 * trix) - abs(trix);
+    float tri2sdf = abs(trix + 0.1 - 0.25 * triy) + abs(1.5 * triy - abs(trix + 0.1 - 0.25 * triy)) - 1.0;
+    float above2sdf = 1.5 * triy - 0.05 - abs(trix + 0.1 - 0.25 * triy);
+    
+    bool on = trisdf < 0.0 && (abovesdf < 0.0 && trisdf > -0.1 || abovesdf >= 0.0 && trisdf > -0.075);
+    bool on2 = tri2sdf < 0.0 && (above2sdf < 0.0 && tri2sdf > -0.1 || above2sdf >= 0.0 && tri2sdf > -0.075);
+    
+    if (on || trisdf <= 0.0) return;
+
+    float spacing = width / 26.0;
+    float band = ((pos.x - 0.35 * width) / spacing);
+    float currentVol = spectrumData[int(band)];
+    currentVol *= (currentVol+1.0);
+    float bottom = 0.58 * height;
+    if (band < 8.0 && band >= 0.0 && pos.y > bottom && (id.x - 0.35 * width) % spacing < (spacing * 2.0/3.0) && (pos.y-bottom)/(height/2.0) < 0.2*currentVol) {
+        fragColor = float4(1,0.5,1,1);
+    }
+
+    output[id.xy] = fragColor;
+}

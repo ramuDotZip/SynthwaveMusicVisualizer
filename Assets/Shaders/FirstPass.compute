@@ -1,0 +1,82 @@
+#pragma kernel main
+
+#include "common.cginc"
+
+int width;
+int height;
+
+float iTime;
+
+//RWStructuredBuffer<float> spectrumData;
+RWTexture2D<float4> output;
+
+[numthreads(32,32,1)]
+void main (uint3 id : SV_DispatchThreadID)
+{
+    float4 fragColor = float4(0,0,0,0);
+
+    float2 res = float2(width, height);
+    float2 pos = id.xy + 0.5;
+    float2 hres = res * 0.5;
+    float2 cpos = pos - hres;
+
+    //output[id.xy] = float4(pos / res, TEST_VALUE, 1);
+    
+    float x = cpos.x;
+    float y = res.y * 0.56 - pos.y;
+    float vline = (mod(LINEXFREQ * x / y + 0.5, 1.0) - 0.5) * y;
+    float hline = (mod(LINEYFREQ * res.y * 0.56 / y + GRID_SPEED * iTime + 0.5, 1.0) - 0.5) * y / 800.0;
+    if (cpos.y < 0.0) {
+        if (cpos.y > -8.0) {
+            fragColor = float4(1,1,1,1);
+        } else {
+            float inverseIntensity = min(abs(vline / (160.0 * LINEXSIZE)), abs(hline / (0.2 * LINEYSIZE)));
+            fragColor = 0.6*float4(1,1,1,1) * exp(-inverseIntensity*inverseIntensity);
+        }
+    } else {
+        float xd2 = cpos.x * cpos.x;
+        float mountain = max(min(8.0*((MOUNTAIN_HEIGHT+MOUNTAIN_WEIGHT*xd2/409600.0)*perlin1d(pos.x) - cpos.y/hres.y), 1.0) - 1.0*cpos.y/hres.y, 0.0);
+        float star = max(10.0*perlin2d(pos.xy)-7.0,0.0);
+        fragColor = (1.0-mountain)*float4(float3(star,star,star),1);
+    }
+    
+    if (!DRAW_TRIANGLES) return;
+    
+    float trix = (pos.x - res.x*0.49) / (res.y*0.28);
+    float triy = (pos.y - res.y*0.39) / (res.y*0.28);
+    
+    float trisdf = abs(trix) + abs(1.6 * (triy - 0.2 * trix) - abs(trix)) - 1.0;
+    float abovesdf = 1.6 * (triy - 0.2 * trix) - abs(trix);
+    float tri2sdf = abs(trix + 0.1 - 0.25 * triy) + abs(1.5 * triy - abs(trix + 0.1 - 0.25 * triy)) - 1.0;
+    float above2sdf = 1.5 * triy - 0.05 - abs(trix + 0.1 - 0.25 * triy);
+    
+    if (trisdf < 0.1 || tri2sdf < 0.1) {
+        fragColor *= 0.0;
+    }
+    bool on = trisdf < 0.0 && (abovesdf < 0.0 && trisdf > -0.1 || abovesdf >= 0.0 && trisdf > -0.075);
+    bool on2 = tri2sdf < 0.0 && (above2sdf < 0.0 && tri2sdf > -0.1 || above2sdf >= 0.0 && tri2sdf > -0.075);
+    
+    
+    if (on) {
+        fragColor += float4(0,1,3,1);
+    } else if (on2 && trisdf > 0.0) {
+        fragColor += float4(1,0,2,1);
+    }
+
+    output[id.xy] = fragColor;
+
+
+    if (!DRAW_FREQVIS) return;
+    /*if (on || trisdf <= 0.0) return;
+
+    float spacing = width / 26.0;
+    float band = ((pos.x - 0.35 * width) / spacing);
+    float currentVol = spectrumData[int(band)];
+    currentVol *= (currentVol+1.0);
+    float bottom = 0.58 * height;
+    if (band < 8.0 && band >= 0.0 && pos.y > bottom && (id.x - 0.35 * width) % spacing < (spacing * 2.0/3.0) && (pos.y-bottom)/(height/2.0) < 0.2*currentVol) {
+        fragColor = 0.8*fragColor + 0.5*float4(1,0.5,1,1);
+    }
+
+    output[id.xy] = fragColor;*/
+}

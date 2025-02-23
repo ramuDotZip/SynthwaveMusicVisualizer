@@ -1,0 +1,89 @@
+#pragma kernel main
+
+#include "common.cginc"
+
+int width;
+int height;
+
+float iTime;
+
+RWStructuredBuffer<float> spectrumData;
+Texture2D<float4> firstPassInput;
+Texture2D<float4> gaussianInput;
+Texture2D<float4> bandsInput;
+Texture2D<float4> bandsBlurredInput;
+Texture2D<float4> centerImageInput;
+RWTexture2D<float4> output;
+
+[numthreads(32,32,1)]
+void main (uint3 id : SV_DispatchThreadID)
+{
+    float4 fragColor = float4(0,0,0,1);
+
+    float2 res = float2(width, height);
+    float2 pos = id.xy + 0.5;
+    float2 hres = res * 0.5;
+    float2 cpos = pos - hres;
+
+    /*int band = id.x * 9 / width;
+    //float4 fragColor = float4(0,0,0,1);
+    if (float(id.y) / float(height) < spectrumData[band]) fragColor = float4(1,1,1,1);
+    //if (spectrumData[band] < 0) fragColor.r = 1;
+    //if (spectrumData[band] == 0) fragColor.b = 1;
+    //fragColor.g = spectrumData[band] - float(id.y) / float(height);
+    output[id.xy] = fragColor;*/
+    
+    float avgVol = spectrumData[8];
+    float xd2 = cpos.x * cpos.x;
+    
+    float gradientY = cpos.y / hres.y;
+    float gradientRed = 0.8 * exp(-(GRADIENT_RED_BIAS + GRADIENT_RED_MOD*avgVol)*gradientY*gradientY) / (1.0+exp(-8.0*gradientY-4.0));
+    float gradientBlue = 0.8 * exp(-(GRADIENT_BLUE_BIAS + GRADIENT_BLUE_MOD*avgVol)*gradientY*gradientY) / (1.0+exp(-8.0*gradientY-4.0));
+    
+    
+    float sr2 = 77.7/res.y/res.y*(xd2 + (pos.y - SUN_HEIGHT*res.y)*(pos.y - SUN_HEIGHT*res.y));
+    float sun = min(8.0*exp(-sr2*sr2), 1.0) * 1.0 / (1.0 + exp(-6.0*(sin((144.0/res.y)*pos.y + SUN_SPEED*iTime) + (exp((pos.y/res.y - SUN_HEIGHT + 0.08)*4.5)-1.0))));
+    
+    float mountain = max(min(12.0*((MOUNTAIN_HEIGHT+MOUNTAIN_WEIGHT*xd2/hres.x/hres.x)*perlin1d(pos.x*1280.0/res.x) - (cpos.y)/hres.y), 1.0) - 1.5*(cpos.y)/hres.y, 0.0);
+    sun *= max(1.0-2.0*mountain,0.0);
+    
+    float sunreflect = min(8.0*exp(-0.9*sr2*sr2) / (1.0 + exp(-2.0*(sin((288.0/res.y)*pos.y - SUN_SPEED*iTime)))), 1.0);
+    
+    float4 lineGlow = firstPassInput[id.xy] + 0.25 * float4(0.75,0.25,1,0.25) * (avgVol*avgVol*BLOOM_MOD+BLOOM_BIAS) * gaussianInput[id.xy];
+    float4 backgroundGradient = (1.0-mountain) * float4(gradientRed,0,gradientBlue,1) * (1.0-0.3*exp(-0.00001*xd2));
+    fragColor = 1.0 - (1.0 - backgroundGradient) * (1.0 - lineGlow);
+    fragColor = sun * float4(1,pos.y/res.y-0.1,0,1) + (1.0-sun) * fragColor;
+    fragColor += 0.25 * max(1.0-2.0*mountain,0.0) * sunreflect * float4(1,0,0,1);
+
+    if (DRAW_FREQVIS) {
+        float4 bandVal = bandsInput[id.xy] + 0.25 * float4(0.75,0.25,1,0.25) * (avgVol*avgVol*BLOOM_MOD+BLOOM_BIAS) * bandsBlurredInput[id.xy];
+        if (bandVal.a > 0) {
+            fragColor *= 1 - (0.2 * bandVal.a);
+            fragColor += 0.5 * bandVal;
+        }
+    }
+
+    float cia = 0;
+    if (DRAW_CENTER_IMAGE) {
+        float trix = (pos.x - res.x*0.49) / (res.y*0.28);
+        float triy = (pos.y - res.y*0.39) / (res.y*0.28);
+    
+        float trisdf = abs(trix) + abs(1.6 * (triy - 0.2 * trix) - abs(trix)) - 1.0;
+        float abovesdf = 1.6 * (triy - 0.2 * trix) - abs(trix);
+
+        bool on = trisdf < 0.0 && (abovesdf < 0.0 && trisdf > -0.1 || abovesdf >= 0.0 && trisdf > -0.075);
+
+        if (abovesdf >= 0.0 || trisdf < 0.0 && !on) {
+            float4 ciPixel = centerImageInput[id.xy];
+            cia = ciPixel.a;
+            fragColor *= 1 - ciPixel.a;
+            fragColor += ciPixel * ciPixel.a;
+        }
+    }
+
+    fragColor += (1 - 0.5 * cia) * (avgVol*avgVol*SUN_GLOW_MOD+SUN_GLOW_BIAS) * float4(1,pos.y/res.y-0.1,0,1) * exp(-0.05*sr2*sr2);
+    
+    fragColor = min(fragColor, float4(1,1,1,1));
+    fragColor.a = 1;
+    output[id.xy] = fragColor;
+}
