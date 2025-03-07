@@ -155,9 +155,9 @@ MonoBehaviour:
   gradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
-    key1: {r: 0.93333334, g: 0.53333336, b: 1, a: 1}
-    key2: {r: 0.53333336, g: 0.13333334, b: 0.8, a: 0}
-    key3: {r: 0.4, g: 0, b: 0.53333336, a: 0}
+    key1: {r: 0.6666667, g: 0.53333336, b: 1, a: 1}
+    key2: {r: 0.33333334, g: 0.13333334, b: 0.8, a: 0}
+    key3: {r: 0.13333334, g: 0.06666667, b: 0.53333336, a: 0}
     key4: {r: 1, g: 1, b: 1, a: 0}
     key5: {r: 0.53333336, g: 1, b: 1, a: 0}
     key6: {r: 0.4, g: 0.8, b: 1, a: 0}
@@ -539,7 +539,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 1266349835507261920, guid: ddcfbb7afd1497f4fafc2bd1b9b254d2, type: 2}
-  m_audioClip: {fileID: 8300000, guid: c0c7277316c851649b288a1523e39d19, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 07434351cf17f5047abf30490b41421e, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -654,6 +654,7 @@ GameObject:
   - component: {fileID: 519420035}
   - component: {fileID: 519420036}
   - component: {fileID: 519420034}
+  - component: {fileID: 519420037}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -741,8 +742,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainAudioSource: {fileID: 1363397677}
   secondaryAudioSource: {fileID: 392203563}
-  mix: 0.5
+  mix: 0.25
   spectrumDataBuffer: {fileID: 1557189379}
+  labelReader: {fileID: 519420037}
 --- !u!114 &519420035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -770,6 +772,19 @@ MonoBehaviour:
   width: 1920
   height: 1080
   finalNode: {fileID: 1927767741}
+--- !u!114 &519420037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de2bbd061bdafed429e17c25ceb5e167, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  labels: {fileID: 4900000, guid: 70d006cccb74f15408c5bdfca4cf77a3, type: 3}
 --- !u!1 &774964000
 GameObject:
   m_ObjectHideFlags: 0
@@ -976,7 +991,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: ddcfbb7afd1497f4fafc2bd1b9b254d2, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 88ac55af8a21bf74cbfcf147d3c58b56, type: 3}
+  m_audioClip: {fileID: 8300000, guid: f1a99293a48c24446b43a89067ce6b4b, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

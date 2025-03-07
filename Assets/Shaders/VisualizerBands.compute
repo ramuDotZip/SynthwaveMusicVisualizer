@@ -34,7 +34,7 @@ void main (uint3 id : SV_DispatchThreadID)
     float currentVol = spectrumData[int(band)];
     currentVol *= (currentVol+1.0);
     float bottom = 0.58 * height;
-    if (band < 8.0 && band >= 0.0 && pos.y > bottom && (id.x - 0.35 * width) % spacing < (spacing * 2.0/3.0) && (pos.y-bottom)/(height/2.0) < 0.2*currentVol) {
+    if (band < 8.0 && band >= 0.0 && pos.y > bottom && (id.x - 0.35 * width) % spacing < (spacing * 2.0/3.0) && (pos.y-bottom)/(height/2.0) < 0.3*currentVol) {
         fragColor = float4(1,0.5,1,1);
     }
 
