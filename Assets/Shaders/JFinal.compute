@@ -1,0 +1,47 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+#include "common.cginc"
+
+RWStructuredBuffer<float> spectrumData;
+Texture2D<float4> imageInput;
+
+[numthreads(32,32,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    // maroon background color
+    float4 color = float4(0.518, 0.189, 0.287, 1);
+    
+    // mirror the rest of the image about the center
+    uint2 pos = id.xy;
+    pos.x = uint(width) - pos.x;
+    if (pos.x > uint(width * 0.5)) {
+        pos = uint2(uint(width) - pos.x, uint(height) - pos.y);
+    }
+    
+    uint bandBottomX = width * 0.32;
+    uint bandSpacing = 60; // 60
+    uint bandWidth = 30; // 30
+    uint bandStartY = 120;
+    int bandLength = 300;
+    int bandBaseLength = 10;
+    int numBands = 8;
+    
+    if (pos.x < bandBottomX) {
+        int band = (pos.y - bandStartY) / bandSpacing;
+        if (band >= 0 && band < numBands && (pos.y - bandStartY) % bandSpacing < bandWidth) {
+            float value = spectrumData[band];
+            if (bandBottomX - int(pos.x) < uint(value * bandLength + bandBaseLength)) {
+                color = float4(1, 1, 1, 1);
+            }
+        }
+    }
+    
+    
+    // put image over top
+    float4 inputColor = imageInput[id.xy];
+    color *= (1 - inputColor.a);
+    color += inputColor;
+    
+    output[id.xy] = color;
+}
