@@ -6,6 +6,7 @@ using UnityEngine;
 public class OverrideLabelReader : MonoBehaviour
 {
     [SerializeField] TextAsset labels;
+    [SerializeField] float startTime = 0;
     private string[] lines;
     private int lineNumber;
     private float currentSmoothedValue, currentEnvValue, envStartTime, envEndTime, envStartVal, envEndVal;
@@ -26,8 +27,11 @@ public class OverrideLabelReader : MonoBehaviour
 
         if (time > envEndTime)
         {
-            currentEnvValue = envEndVal;
-            ReadLine();
+            while (time > envEndTime)
+            {
+                currentEnvValue = envEndVal;
+                ReadLine();
+            }
         }
         else if (time > envStartTime)
         {
@@ -76,14 +80,14 @@ public class OverrideLabelReader : MonoBehaviour
 
     public void StartAnimation()
     {
-        time = 0;
+        time = startTime;
         playing = true;
         ResetLineReader();
     }
 
     public void ResetAnimation()
     {
-        time = 0;
+        time = startTime;
         playing = false;
         ResetLineReader();
     }

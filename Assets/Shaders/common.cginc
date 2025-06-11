@@ -1,6 +1,6 @@
 #define GRID_SPEED 0.2
 #define SUN_SPEED 1.0
-#define LINEXFREQ 2.0
+#define LINEXFREQ 1.5
 #define LINEYFREQ 2.0
 #define LINEXSIZE 0.05
 #define LINEYSIZE 0.05
@@ -8,14 +8,26 @@
 #define MOUNTAIN_HEIGHT 0.6
 #define MOUNTAIN_WEIGHT 0.8
 
+
 #define BLOOM_BIAS 20.0
 #define BLOOM_MOD 0.0
+
 #define GRADIENT_RED_BIAS -7.0
 #define GRADIENT_RED_MOD 2.5
+#define GRADIENT_RED_MOD2 -3
+
+#define GRADIENT_GREEN_BIAS -25
+#define GRADIENT_GREEN_MOD 2
+#define GRADIENT_GREEN_MOD2 10
+
 #define GRADIENT_BLUE_BIAS -2
 #define GRADIENT_BLUE_MOD 0.5
+#define GRADIENT_BLUE_MOD2 0.25
+
 #define SUN_GLOW_BIAS 0.3
 #define SUN_GLOW_MOD 0.2
+#define SUN_GLOW_MOD_MOD2 0.1
+
 
 #define DRUM_MIX 0.5
 

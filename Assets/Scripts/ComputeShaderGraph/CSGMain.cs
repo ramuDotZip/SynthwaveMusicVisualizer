@@ -8,6 +8,7 @@ public class CSGMain : MonoBehaviour
     [SerializeField] private int width = 1920;
     [SerializeField] private int height = 1080;
     [SerializeField] CSGNode finalNode;
+    [SerializeField] OverrideLabelReader speedLabelReader;
 
     private float time = 0;
     private bool playing = false;
@@ -16,12 +17,16 @@ public class CSGMain : MonoBehaviour
     {
         time = 0;
         playing = true;
+
+        if (speedLabelReader != null) speedLabelReader.StartAnimation();
     }
 
     public void ResetAnimation()
     {
         time = 0;
         playing = false;
+
+        if (speedLabelReader != null) speedLabelReader.ResetAnimation();
     }
 
     private void Start()
@@ -36,7 +41,16 @@ public class CSGMain : MonoBehaviour
 
     void Update()
     {
-        if (playing) time += Time.deltaTime;
+        if (playing)
+        {
+            float elapsed = Time.deltaTime;
+            if (speedLabelReader != null)
+            {
+                elapsed *= speedLabelReader.GetCurrentValue() + 1;
+            }
+
+            time += elapsed;
+        }
     }
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
