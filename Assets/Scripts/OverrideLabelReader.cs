@@ -16,7 +16,7 @@ public class OverrideLabelReader : MonoBehaviour
 
     void Start()
     {
-        lines = labels.text.Split("\n");
+        lines = (labels != null) ? labels.text.Split("\n") : new string[0];
         ResetLineReader();
     }
 

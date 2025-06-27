@@ -17,6 +17,7 @@ public class AudioController : MonoBehaviour
     [SerializeField] CSGFloatBuffer spectrumDataBuffer;
     [SerializeField] OverrideLabelReader powerLabelReader;
     [SerializeField] OverrideLabelReader speedLabelReader;
+    [SerializeField] OverrideLabelReader colorLabelReader;
 
     private const int bufferSize = 10;
 
@@ -37,6 +38,7 @@ public class AudioController : MonoBehaviour
 
         if (powerLabelReader != null) powerLabelReader.StartAnimation();
         if (speedLabelReader != null) speedLabelReader.StartAnimation();
+        if (colorLabelReader != null) colorLabelReader.StartAnimation();
     }
 
     private void PlayAudioAtTime(AudioSource source, float startTime)
@@ -62,6 +64,7 @@ public class AudioController : MonoBehaviour
 
         if (powerLabelReader != null) powerLabelReader.ResetAnimation();
         if (speedLabelReader != null) speedLabelReader.ResetAnimation();
+        if (colorLabelReader != null) colorLabelReader.ResetAnimation();
     }
 
     void Update()
@@ -165,7 +168,7 @@ public class AudioController : MonoBehaviour
         finalWM -= worldModCompressionReduction;
         bandVolumes[8] = finalWM;
 
-        bandVolumes[9] = (speedLabelReader != null) ? speedLabelReader.GetCurrentValue() : 0;
+        bandVolumes[9] = (colorLabelReader != null) ? colorLabelReader.GetCurrentValue() : 0;
 
         spectrumDataBuffer.Buffer.SetData(bandVolumes);
     }

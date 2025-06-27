@@ -70,8 +70,8 @@ void main (uint3 id : SV_DispatchThreadID)
 
         bool on = trisdf < 0.0 && (abovesdf < 0.0 && trisdf > -0.1 || abovesdf >= 0.0 && trisdf > -0.075);
         
-        // hack to show left side over tris
-        bool skip = trix < 0;
+        // hack to show left side over tris (turned off)
+        bool skip = false; //trix < 0;
 
         if ((abovesdf >= 0.0 || trisdf < 0.0 && !on) || skip) {
             float4 ciPixel = centerImageInput[id.xy];
