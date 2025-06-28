@@ -182,7 +182,7 @@ MonoBehaviour:
     m_NumColorKeys: 8
     m_NumAlphaKeys: 2
   height: 256
-  path: /Gradients/FontGradient.png
+  path: /Gradients/FontGradient2.png
 --- !u!4 &29111950
 Transform:
   m_ObjectHideFlags: 0
@@ -338,7 +338,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Cavi Cape
+  m_text: Another Medium
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3b0aba698486fe74eb8e342e7e993b07, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 141eeb1bdaa4ca34897c17c1ff5c4cf4, type: 2}
@@ -539,7 +539,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 1266349835507261920, guid: ddcfbb7afd1497f4fafc2bd1b9b254d2, type: 2}
-  m_audioClip: {fileID: 8300000, guid: d08e794380a8a3742b2f85d732ea2a50, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 8cbe0119894ff66489d6bd2daa9dded1, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -669,7 +669,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de2bbd061bdafed429e17c25ceb5e167, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  labels: {fileID: 4900000, guid: 2876332a2e99779419068b3055a633e5, type: 3}
+  labels: {fileID: 4900000, guid: a5ec3c4481da0be4eb2a63e9f533c480, type: 3}
   startTime: -1
 --- !u!4 &456716705
 Transform:
@@ -702,7 +702,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &503414526
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -873,9 +873,9 @@ MonoBehaviour:
   secondaryAudioSource: {fileID: 392203563}
   startTime: -1
   modAmplitude: 1
-  worldModAmplitude: 2
-  worldModCompressionGain: 1.5
-  worldModCompressionRatio: 2
+  worldModAmplitude: 1.5
+  worldModCompressionGain: 1.2
+  worldModCompressionRatio: 1.5
   worldModCompressionAttack: 0.75
   mix: 0.5
   spectrumDataBuffer: {fileID: 1557189379}
@@ -1060,7 +1060,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 838ee605239a32448b3d1d38116d6fc2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 99c30a177f649824da2f776183f3ef80, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1079,8 +1079,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 799299398}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.1, y: -0.3, z: 0}
-  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
+  m_LocalPosition: {x: -0.15, y: 0.3, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -1246,7 +1246,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: ddcfbb7afd1497f4fafc2bd1b9b254d2, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 1d0d81d8075bf1c40bdcaace445361c1, type: 3}
+  m_audioClip: {fileID: 8300000, guid: d54fa862488b3cb43a79a225081c0ff3, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1376,7 +1376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de2bbd061bdafed429e17c25ceb5e167, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  labels: {fileID: 4900000, guid: 6a9e131c92c11eb4f9d9616bf14ccc7d, type: 3}
+  labels: {fileID: 4900000, guid: 818a374c089cc4142812b9aea2a586b1, type: 3}
   startTime: -1
 --- !u!4 &1365330915
 Transform:
@@ -1684,7 +1684,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de2bbd061bdafed429e17c25ceb5e167, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  labels: {fileID: 4900000, guid: ce3314d85eddc4c4f930df9f7afbdba7, type: 3}
+  labels: {fileID: 4900000, guid: 280d87872ce781e4d9111be104012f93, type: 3}
   startTime: -1
 --- !u!4 &1635754322
 Transform:

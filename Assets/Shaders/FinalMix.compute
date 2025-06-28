@@ -32,9 +32,9 @@ void main (uint3 id : SV_DispatchThreadID)
     float xd2 = cpos.x * cpos.x;
     
     float gradientY = cpos.y / hres.y;
-    float gradientRed = 0.8 * exp((GRADIENT_RED_BIAS + GRADIENT_RED_MOD*avgVol + GRADIENT_RED_MOD2*mod2)*gradientY*gradientY) / (1.0+exp(-8.0*gradientY-4.0));
-    float gradientGreen = 0.8 * exp((GRADIENT_GREEN_BIAS + GRADIENT_GREEN_MOD*avgVol + GRADIENT_GREEN_MOD2*mod2)*gradientY*gradientY) / (1.0+exp(-8.0*gradientY-4.0));
-    float gradientBlue = 0.8 * exp((GRADIENT_BLUE_BIAS + GRADIENT_BLUE_MOD*avgVol + GRADIENT_BLUE_MOD2*mod2)*gradientY*gradientY) / (1.0+exp(-8.0*gradientY-4.0));
+    float gradientRed = GRADIENT_RED_STRENGTH * exp((GRADIENT_RED_BIAS + GRADIENT_RED_MOD * avgVol + GRADIENT_RED_MOD2 * mod2) * gradientY * gradientY) / (1.0 + exp(-8.0 * gradientY - 4.0));
+    float gradientGreen = GRADIENT_GREEN_STRENGTH * exp((GRADIENT_GREEN_BIAS + GRADIENT_GREEN_MOD * avgVol + GRADIENT_GREEN_MOD2 * mod2) * gradientY * gradientY) / (1.0 + exp(-8.0 * gradientY - 4.0));
+    float gradientBlue = GRADIENT_BLUE_STRENGTH * exp((GRADIENT_BLUE_BIAS + GRADIENT_BLUE_MOD * avgVol + GRADIENT_BLUE_MOD2 * mod2) * gradientY * gradientY) / (1.0 + exp(-8.0 * gradientY - 4.0));
     
     
     float sr2 = 77.7/res.y/res.y*(xd2 + (pos.y - SUN_HEIGHT*res.y)*(pos.y - SUN_HEIGHT*res.y));
@@ -45,7 +45,7 @@ void main (uint3 id : SV_DispatchThreadID)
     
     float sunreflect = min(8.0*exp(-0.9*sr2*sr2) / (1.0 + exp(-2.0*(sin((288.0/res.y)*pos.y - SUN_SPEED*iTime)))), 1.0);
     
-    float4 lineGlow = firstPassInput[id.xy] + 0.25 * float4(0.5,0.25,1,0.25) * (avgVol*avgVol*BLOOM_MOD+BLOOM_BIAS) * gaussianInput[id.xy];
+    float4 lineGlow = firstPassInput[id.xy] + 0.25 * float4(1,0.25,0.5,0.25) * (avgVol*avgVol*BLOOM_MOD+BLOOM_BIAS) * gaussianInput[id.xy];
     float4 backgroundGradient = (1.0-mountain) * float4(gradientRed,gradientGreen,gradientBlue,1) * (1.0-0.3*exp(-0.00001*xd2));
     fragColor = 1.0 - (1.0 - backgroundGradient) * (1.0 - lineGlow);
     fragColor = sun * float4(1,pos.y/res.y-0.1,0,1) + (1.0-sun) * fragColor;
@@ -77,7 +77,7 @@ void main (uint3 id : SV_DispatchThreadID)
             float4 ciPixel = centerImageInput[id.xy];
             cia = ciPixel.a;
             if (bandVal.a > 0) {
-                cia *= (1 - 0.02 * bandVal.a);
+                cia *= (1 - 0.03 * bandVal.a);
             }
                 
             fragColor *= 1 - cia;

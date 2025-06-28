@@ -30,7 +30,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FaceTex:
-        m_Texture: {fileID: 2800000, guid: ed2b2ab40f052e64fb9257ff83c8e1fc, type: 3}
+        m_Texture: {fileID: 2800000, guid: ef5113d8bbcd3864e968e438df961f2c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -104,5 +104,5 @@ Material:
     - _ReflectFaceColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectOutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
-    - _UnderlayColor: {r: 0.2509804, g: 0, b: 1, a: 1}
+    - _UnderlayColor: {r: 1, g: 0, b: 0.5019608, a: 1}
   m_BuildTextureStacks: []
